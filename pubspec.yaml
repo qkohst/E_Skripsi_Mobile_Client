@@ -21,10 +21,6 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  rflutter_alert: ^2.0.2
-  http: ^0.13.3
-  progress_dialog: ^1.2.4
-  
   flutter:
     sdk: flutter
 
@@ -32,6 +28,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  rflutter_alert: ^2.0.2
+  http: ^0.13.3
+  progress_dialog: ^1.2.4
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:

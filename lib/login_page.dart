@@ -1,6 +1,9 @@
+import 'package:e_skripsi/home.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,69 +13,78 @@ class LoginPage extends StatefulWidget {
 class _State extends State<LoginPage> {
   TextEditingController txtUsername = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
-          child: Text(
-            'LOGIN',
-            style: TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 30),
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-          child: Text(
-            'E-Skripsi Unirow Tuban',
-            style: TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 20),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.all(10),
-          child: TextField(
-            controller: txtUsername,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Username',
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-          child: TextField(
-            obscureText: true,
-            controller: txtPassword,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Password',
-            ),
-          ),
-        ),
-        Container(
-            height: 70,
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
-            child: RaisedButton(
-              textColor: Colors.white,
-              color: Colors.blue,
-              child: Text('LOGIN'),
-              onPressed: () {
-                this._doLogin();
-              },
-            )),
-      ],
-    ));
+        body: _isLoading
+            ? Center(
+                child: Text('Harap Tunggu ...'),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 30),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                    child: Text(
+                      'E-Skripsi Unirow Tuban',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: TextField(
+                      controller: txtUsername,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Username',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: TextField(
+                      obscureText: true,
+                      controller: txtPassword,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                    ),
+                  ),
+                  Container(
+                      height: 70,
+                      width: double.infinity,
+                      padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                      child: RaisedButton(
+                        textColor: Colors.white,
+                        color: Colors.blue,
+                        child: Text('LOGIN'),
+                        onPressed: () {
+                          this._postLogin();
+                        },
+                      )),
+                ],
+              ));
   }
 
-  Future _doLogin() async {
+  Future _postLogin() async {
     if (txtUsername.text.isEmpty || txtPassword.text.isEmpty) {
       Alert(
               context: context,
@@ -91,15 +103,34 @@ class _State extends State<LoginPage> {
       'Accept': 'application/json'
     });
 
-    if (response.statusCode == 200) {
-      Alert(context: context, title: "Login Berhasil", type: AlertType.success)
-          .show();
-    } else {
-      Alert(
-              context: context,
-              title: "Username atau Password Salah",
-              type: AlertType.error)
-          .show();
-    }
+    setState(() {
+      _isLoading = true;
+    });
+
+    final prefs = await SharedPreferences.getInstance();
+
+    Future.delayed(Duration(seconds: 2), () async {
+      if (response.statusCode == 200) {
+        var res = json.decode(response.body);
+        prefs.setBool('isLogin', true);
+        prefs.setString('nama', res['data']['nama']);
+        prefs.setString('username', res['data']['username']);
+        prefs.setString('role', res['data']['role']);
+        prefs.setString('api_token', res['data']['api_token']);
+
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (c) => Home()));
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+
+        Alert(
+                context: context,
+                title: "Username atau Password Salah",
+                type: AlertType.error)
+            .show();
+      }
+    });
   }
 }
