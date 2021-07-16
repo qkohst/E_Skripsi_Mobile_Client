@@ -1,4 +1,7 @@
-import 'package:e_skripsi/home.dart';
+import 'package:e_skripsi/home_admin.dart';
+import 'package:e_skripsi/home_admin_prodi.dart';
+import 'package:e_skripsi/home_dosen.dart';
+import 'package:e_skripsi/home_mahasiswa.dart';
 import 'package:e_skripsi/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,11 +55,34 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (c) => widget.isLogin ? Home() : LoginPage()));
+    Future.delayed(Duration(seconds: 2), () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('role') == 'Admin') {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (c) => widget.isLogin ? HomeAdmin() : LoginPage()));
+      } else if (prefs.getString('role') == 'Admin Prodi') {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (c) =>
+                    widget.isLogin ? HomeAdminProdi() : LoginPage()));
+      } else if (prefs.getString('role') == 'Mahasiswa') {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (c) =>
+                    widget.isLogin ? HomeMahasiswa() : LoginPage()));
+      } else if (prefs.getString('role') == 'Dosen') {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (c) => widget.isLogin ? HomeDosen() : LoginPage()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (c) => LoginPage()));
+      }
     });
   }
 

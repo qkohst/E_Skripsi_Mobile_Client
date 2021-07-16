@@ -1,4 +1,7 @@
-import 'package:e_skripsi/home.dart';
+import 'package:e_skripsi/home_admin.dart';
+import 'package:e_skripsi/home_admin_prodi.dart';
+import 'package:e_skripsi/home_dosen.dart';
+import 'package:e_skripsi/home_mahasiswa.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:http/http.dart' as http;
@@ -118,8 +121,19 @@ class _State extends State<LoginPage> {
         prefs.setString('role', res['data']['role']);
         prefs.setString('api_token', res['data']['api_token']);
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => Home()));
+        if (prefs.getString('role') == 'Admin') {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (c) => HomeAdmin()));
+        } else if (prefs.getString('role') == 'Admin Prodi') {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (c) => HomeAdminProdi()));
+        } else if (prefs.getString('role') == 'Mahasiswa') {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (c) => HomeMahasiswa()));
+        } else if (prefs.getString('role') == 'Dosen') {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (c) => HomeDosen()));
+        }
       } else {
         setState(() {
           _isLoading = false;
