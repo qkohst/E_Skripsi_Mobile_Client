@@ -1,5 +1,11 @@
+import 'package:e_skripsi/adminprodi_page.dart';
+import 'package:e_skripsi/adminseminarproposal_page.dart';
+import 'package:e_skripsi/adminsidangskripsi_page.dart';
 import 'package:e_skripsi/fakultas_page.dart';
+import 'package:e_skripsi/jabatanfungsional_page.dart';
+import 'package:e_skripsi/jabatanstruktural_page.dart';
 import 'package:e_skripsi/main.dart';
+import 'package:e_skripsi/programstudi_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,22 +61,50 @@ class _HomeAdminState extends State<HomeAdmin> {
             new ListTile(
               title: new Text('Program Studi'),
               trailing: new Icon(Icons.auto_awesome_mosaic_outlined),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ProgramStudi();
+              })),
             ),
             new ListTile(
               title: new Text('Jabatan Fungsional'),
               trailing: new Icon(Icons.account_tree),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return JabatanFungsional();
+              })),
             ),
             new ListTile(
               title: new Text('Jabatan Struktural'),
               trailing: new Icon(Icons.account_tree_outlined),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return JabatanStruktural();
+              })),
             ),
             new ListTile(
               title: new Text('Admin Prodi'),
               trailing: new Icon(Icons.supervised_user_circle_sharp),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminProdi();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Seminar Proposal'),
+              trailing: new Icon(Icons.book),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminSeminarProposal();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Sidang Skripsi'),
+              trailing: new Icon(Icons.book_outlined),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminSidangSkripsi();
+              })),
             )
           ],
         ),
@@ -80,7 +114,12 @@ class _HomeAdminState extends State<HomeAdmin> {
         children: <Widget>[
           Text(
             "Selamat Datang",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: 'Roboto',
+              fontStyle: FontStyle.italic,
+            ),
           ),
           SizedBox(height: 10),
           Row(
