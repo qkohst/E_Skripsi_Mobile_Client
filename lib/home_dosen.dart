@@ -36,12 +36,16 @@ class _HomeDosenState extends State<HomeDosen> {
         child: new ListView(
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
-            new UserAccountsDrawerHeader(
-                accountName: new Text("$nama"),
+            new SizedBox(
+              height: 100.0,
+              child: new UserAccountsDrawerHeader(
+                accountName: new Text("$nama",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 accountEmail: new Text("$role"),
-                currentAccountPicture: new CircleAvatar(
-                  backgroundColor: Colors.white,
-                )),
+                margin: EdgeInsets.zero,
+              ),
+            ),
             new ListTile(
               title: new Text('Home'),
               trailing: new Icon(Icons.home),
