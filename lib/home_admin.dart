@@ -8,8 +8,14 @@ class HomeAdmin extends StatefulWidget {
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
+  String nama = "";
+  String role = "";
+  String apiToken = "";
+  String apiKey = "";
+
   @override
   Widget build(BuildContext context) {
+    _getFromSharedPreferences();
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -24,9 +30,9 @@ class _HomeAdminState extends State<HomeAdmin> {
         child: new ListView(
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
-            new UserAccountsDrawerHeader(
-                accountName: new Text("Kukoh Santoso"),
-                accountEmail: new Text("Admin"),
+            UserAccountsDrawerHeader(
+                accountName: new Text("$nama"),
+                accountEmail: new Text("$role"),
                 currentAccountPicture: new CircleAvatar(
                   backgroundColor: Colors.white,
                 )),
@@ -72,16 +78,16 @@ class _HomeAdminState extends State<HomeAdmin> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Selamat Datang',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            "Selamat Datang",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Kukoh Santoso',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                "$nama",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ],
           ),
@@ -89,7 +95,7 @@ class _HomeAdminState extends State<HomeAdmin> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Anda Login Sebagai Admin'),
+              Text("Anda Login Sebagai $role"),
             ],
           )
         ],
@@ -103,5 +109,16 @@ class _HomeAdminState extends State<HomeAdmin> {
 
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (c) => MyApp()));
+  }
+
+  void _getFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      nama = prefs.getString("nama") ?? "No Name";
+      role = prefs.getString("role") ?? "No Role";
+      apiToken = prefs.getString("api_token") ?? "No Token";
+      apiKey = prefs.getString("api_key") ?? "No Key";
+    });
   }
 }
