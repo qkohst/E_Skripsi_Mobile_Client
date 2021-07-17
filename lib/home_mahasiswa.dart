@@ -1,3 +1,5 @@
+import 'package:e_skripsi/mahasiswabimbinganproposal_page.dart';
+import 'package:e_skripsi/mahasiswabimbinganskripsi_page.dart';
 import 'package:e_skripsi/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +13,7 @@ class _HomeMahasiswaState extends State<HomeMahasiswa> {
   String nama = "";
   String role = "";
   String apiToken = "";
-  String apiKey = "";
-  
+
   @override
   Widget build(BuildContext context) {
     _getFromSharedPreferences();
@@ -37,15 +38,29 @@ class _HomeMahasiswaState extends State<HomeMahasiswa> {
                   backgroundColor: Colors.white,
                 )),
             new ListTile(
-              title: new Text('Profile'),
-              trailing: new Icon(Icons.account_circle),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            new ListTile(
               title: new Text('Home'),
               trailing: new Icon(Icons.home),
-              onTap: () => Navigator.of(context).pop(),
-            )
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HomeMahasiswa();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Bimbingan Proposal'),
+              trailing: new Icon(Icons.book),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MahasiswaBimbinganProposal();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Bimbingan Skripsi'),
+              trailing: new Icon(Icons.book_outlined),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MahasiswaBimbinganSkripsi();
+              })),
+            ),
           ],
         ),
       ),
@@ -54,7 +69,12 @@ class _HomeMahasiswaState extends State<HomeMahasiswa> {
         children: <Widget>[
           Text(
             'Selamat Datang',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: 'Roboto',
+              fontStyle: FontStyle.italic,
+            ),
           ),
           SizedBox(height: 10),
           Row(
@@ -93,7 +113,6 @@ class _HomeMahasiswaState extends State<HomeMahasiswa> {
       nama = prefs.getString("nama") ?? "No Name";
       role = prefs.getString("role") ?? "No Role";
       apiToken = prefs.getString("api_token") ?? "No Token";
-      apiKey = prefs.getString("api_key") ?? "No Key";
     });
   }
 }
