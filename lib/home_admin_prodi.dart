@@ -1,4 +1,9 @@
+import 'package:e_skripsi/adminprodiseminarproposal_page.dart';
+import 'package:e_skripsi/adminprodisidangskripsi_page.dart';
+import 'package:e_skripsi/dosen_page.dart';
+import 'package:e_skripsi/mahasiswa_page.dart';
 import 'package:e_skripsi/main.dart';
+import 'package:e_skripsi/persetujuankrs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +16,6 @@ class _HomeAdminProdiState extends State<HomeAdminProdi> {
   String nama = "";
   String role = "";
   String apiToken = "";
-  String apiKey = "";
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +42,53 @@ class _HomeAdminProdiState extends State<HomeAdminProdi> {
                   backgroundColor: Colors.white,
                 )),
             new ListTile(
-              title: new Text('Profile'),
-              trailing: new Icon(Icons.account_circle),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            new ListTile(
               title: new Text('Home'),
               trailing: new Icon(Icons.home),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HomeAdminProdi();
+              })),
             ),
             new ListTile(
               title: new Text('Mahasiswa'),
-              onTap: () => Navigator.of(context).pop(),
               trailing: new Icon(Icons.supervised_user_circle_outlined),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Mahasiswa();
+              })),
             ),
             new ListTile(
               title: new Text('Dosen'),
               trailing: new Icon(Icons.supervisor_account),
-              onTap: () => Navigator.of(context).pop(),
-            )
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Dosen();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Persetujuan KRS'),
+              trailing: new Icon(Icons.fact_check_outlined),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return PersetujuanKRS();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Seminar Proposal'),
+              trailing: new Icon(Icons.book),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminProdiSeminarProposal();
+              })),
+            ),
+            new ListTile(
+              title: new Text('Sidang Skripsi'),
+              trailing: new Icon(Icons.book_outlined),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminProdiSidangSkripsi();
+              })),
+            ),
           ],
         ),
       ),
@@ -65,7 +97,12 @@ class _HomeAdminProdiState extends State<HomeAdminProdi> {
         children: <Widget>[
           Text(
             'Selamat Datang',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              fontFamily: 'Roboto',
+              fontStyle: FontStyle.italic,
+            ),
           ),
           SizedBox(height: 10),
           Row(
@@ -104,7 +141,6 @@ class _HomeAdminProdiState extends State<HomeAdminProdi> {
       nama = prefs.getString("nama") ?? "No Name";
       role = prefs.getString("role") ?? "No Role";
       apiToken = prefs.getString("api_token") ?? "No Token";
-      apiKey = prefs.getString("api_key") ?? "No Key";
     });
   }
 }
