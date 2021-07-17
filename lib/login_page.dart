@@ -120,9 +120,7 @@ class _State extends State<LoginPage> {
         prefs.setString('username', res['data']['username']);
         prefs.setString('role', res['data']['role']);
         prefs.setString('api_token', res['data']['api_token']);
-        prefs.setString('api_key',
-            '4pyHNMVxTnNVpe571jMMXtE0a5X74PDYqkoLRds9lXlSqOW7GtqrBT29ptY5');
-
+        
         if (prefs.getString('role') == 'Admin') {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (c) => HomeAdmin()));

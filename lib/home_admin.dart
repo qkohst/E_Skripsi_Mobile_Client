@@ -1,3 +1,4 @@
+import 'package:e_skripsi/fakultas_page.dart';
 import 'package:e_skripsi/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +12,6 @@ class _HomeAdminState extends State<HomeAdmin> {
   String nama = "";
   String role = "";
   String apiToken = "";
-  String apiKey = "";
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +37,20 @@ class _HomeAdminState extends State<HomeAdmin> {
                   backgroundColor: Colors.white,
                 )),
             new ListTile(
-              title: new Text('Profile'),
-              trailing: new Icon(Icons.account_circle),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            new ListTile(
               title: new Text('Home'),
               trailing: new Icon(Icons.home),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return HomeAdmin();
+              })),
             ),
             new ListTile(
               title: new Text('Fakultas'),
-              onTap: () => Navigator.of(context).pop(),
               trailing: new Icon(Icons.auto_awesome_mosaic),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Fakultas();
+              })),
             ),
             new ListTile(
               title: new Text('Program Studi'),
@@ -118,7 +119,6 @@ class _HomeAdminState extends State<HomeAdmin> {
       nama = prefs.getString("nama") ?? "No Name";
       role = prefs.getString("role") ?? "No Role";
       apiToken = prefs.getString("api_token") ?? "No Token";
-      apiKey = prefs.getString("api_key") ?? "No Key";
     });
   }
 }
