@@ -1,6 +1,12 @@
-# e_skripsi
+## RESTful API Mobile Client
 
-A new Flutter project.
+This is the result of implementing the Unirow Tuban E-Thesis RESTful API into a mobile-based system developed using flutter
+
+### Screenshot
+
+![1](https://user-images.githubusercontent.com/57386598/129236658-02e9f9fc-0b1b-46de-971b-b542f758c84e.jpg)
+
+![2](https://user-images.githubusercontent.com/57386598/129236645-a9e3f9e2-9373-4926-a8f7-5d456792bd80.jpg)
 
 ## Getting Started
 
